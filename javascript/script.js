@@ -3,6 +3,8 @@ const display = document.querySelector(".display");
 const word = document.querySelector(".word");
 const text = document.querySelector(".mute-word");
 const content = document.querySelector(".content");
+const sound = document.getElementById('sound');
+
 
 const url = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 
@@ -22,7 +24,7 @@ search.addEventListener("click", event => {
                 `
                     <div class="searched-word">
                         <h3 class="word"> ${inputVal} </h3>
-                        <i class="fa fa-volume-up"></i>
+                        <i class="fa fa-volume-up" onclick="playSound()"></i>
                     </div>
         
                     <div class="mute-word"> ${data[0].meanings[0].partOfSpeech} ${data[0].phonetic || data[0].phonetics[1].text} </div>
@@ -36,6 +38,7 @@ search.addEventListener("click", event => {
                     </p>
                 `
                 ;
+                sound.setAttribute('src', `${data[0].phonetics[0].audio || data[0].phonetics[1].audio}`);
         })
         .catch(err => {
             alert("Please use a correct word");
@@ -45,3 +48,7 @@ search.addEventListener("click", event => {
         alert("Please fill the input ..");
     }
 });
+
+function playSound(){
+    sound.play();
+}
